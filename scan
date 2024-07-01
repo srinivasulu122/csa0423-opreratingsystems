@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int cmpfunc(const void *a, const void *b) { return (*(int*)a - *(int*)b); }
+
+void SCAN(int arr[], int size, int head) {
+    qsort(arr, size, sizeof(int), cmpfunc);
+    int seek_count = 0, i;
+    for (i = 0; i < size && arr[i] < head; i++);
+    for (int j = i; j < size; j++) {
+        seek_count += abs(arr[j] - head);
+        head = arr[j];
+        printf("Move to %d, Seek Count: %d\n", head, seek_count);
+    }
+    for (int j = i - 1; j >= 0; j--) {
+        seek_count += abs(arr[j] - head);
+        head = arr[j];
+        printf("Move to %d, Seek Count: %d\n", head, seek_count);
+    }
+    printf("Total seek operations: %d\n", seek_count);
+}
+
+int main() {
+    int arr[] = { 176, 79, 34, 60, 92, 11, 41, 114 };
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int head = 50;
+    SCAN(arr, size, head);
+    return 0;
+}
